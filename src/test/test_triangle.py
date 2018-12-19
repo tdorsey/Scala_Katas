@@ -34,7 +34,7 @@ def test_isosceles(lengths, expected):
 
 @pytest.mark.parametrize("lengths,expected",[
     ([3, 3, 3], False),
-    ([5,5,3] , False),
+    ([5,5,3] , True),
     ([5, 3, 3], False),
     ([3,4,5], True),
     ([2,3,4], False),
