@@ -1,20 +1,33 @@
+import pytest
 from main.triangle import Triangle
 
-def test_equilateral():
-    t = Triangle(1,2,3)
-    assert(False)
+
+@pytest.mark.parametrize("lengths,expected",[
+    ([3,3,3], True),
+    ([1,2,3], False)
+])
+def test_equilateral(lengths, expected):
+    triangle = Triangle(*lengths)
+    assert(triangle.is_equilateral() == expected)
 
 def test_isosceles():
-    assert(False)
+    pass
+    #assert(triangle.is_isosceles())
 
-def test_right():
-    return True
+@pytest.mark.parametrize("lengths,expected",[
+    ([3,4,5], True),
+    ([1,2,3], False)
+])
+def test_right(lengths, expected):
+    triangle = Triangle(*lengths)
+    assert(triangle.is_right() == expected)
 
 def test_scalene():
-    return True
+    pass
+    #assert(triangle.is_scalene())
 
 def test_invalid_triangle():
-    return True
+    pass
 
 def test_combination():
     return True
