@@ -5,6 +5,11 @@ class Triangle(object):
         self._side3 = side3
 
 
+
+    @property
+    def sides(self):
+        return [self.side1, self.side2, self.side3]
+
     @property
     def side1(self):
         return self._side1
@@ -36,6 +41,6 @@ class Triangle(object):
         return True
 
     def is_isosceles(self):
-        return True
+        return bool([side for side in self.sides if self.sides.count(side) == 2])
     def is_scalene(self):
         return True
