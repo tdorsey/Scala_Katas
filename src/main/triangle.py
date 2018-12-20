@@ -38,7 +38,13 @@ class Triangle(object):
         return self.side1 == self.side2 == self.side3
 
     def is_right(self):
-        return True
+        #Find index of longest side and pop it into c,
+        #sides is a read only property, so make a copy to pop/unpack correctly
+        sides = self.sides
+        max_index = sides.index(max(sides))
+        c = sides.pop(max_index)
+        a,b = sides
+        return a ** 2 + b ** 2 == c ** 2
 
     def is_isosceles(self):
         return bool([side for side in self.sides if self.sides.count(side) == 2])
