@@ -9,6 +9,7 @@ from main.triangle import Triangle
 [2, 3, 5]  # 5 Not a triangle. TODO: Could be colinear, check with customer to clarify
 """
 
+
 equilateral_data = [
     ([3, 3, 3], True),
     ([5, 5, 3], False),
@@ -49,11 +50,20 @@ invalid_triangle_data =  [
     ([3, 3, 3], True),
     ([5, 5, 3], True),
     ([5, 3, 5], True),
-
     ([3, 4, 5], True),
     ([2, 3, 4], True),
     ([2, 3, 5], False)
 ]
+
+invalid_args_data = [
+    ([-1, -2, -3], ValueError),
+    ([1, -2, 3], ValueError),
+    ([1, 2, -3], ValueError),
+    ([0, 0, -0], ValueError),
+    ([3, 4, 0], ValueError),
+    ([-12313, 4, 0], ValueError),
+]
+
 
 @pytest.fixture(scope='module', params=equilateral_data)
 def equilateral_test_case(request):
@@ -73,6 +83,10 @@ def scalene_test_case(request):
 
 @pytest.fixture(scope='module', params=invalid_triangle_data)
 def invalid_triangle_test_case(request):
+    return request.param
+
+@pytest.fixture(scope='module', params=invalid_args_data)
+def invalid_args_test_case(request):
     return request.param
 
 
@@ -104,9 +118,10 @@ def test_scalene(scalene_test_case):
 def test_invalid_triangle(invalid_triangle_test_case):
     lengths, expected = invalid_triangle_test_case
     triangle = Triangle(*lengths)
-    assert (triangle.is_valid() == expected)
 
 
-
-def test_noninteger_input():
-    return False
+def test_invalid_args(invalid_args_test_case):
+    lengths, expected = invalid_args_data
+    Triangle(*lengths)
+    with pytest.raises(expected):
+        pass

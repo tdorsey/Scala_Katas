@@ -1,10 +1,17 @@
 from itertools import permutations
 
+
 class Triangle(object):
     def __init__(self, side1, side2, side3):
+
+        if any([side1, side2, side3]) <= 0:
+            raise ValueError("The length of a Triangle's side must be a positive int")
+
         self._side1 = side1
         self._side2 = side2
         self._side3 = side3
+
+
 
     @property
     def sides(self):
@@ -48,7 +55,7 @@ class Triangle(object):
         a,b = sides
         return a ** 2 + b ** 2 == c ** 2
 
-    def is_valid(self):
+    def is_valid_triangle(self):
         # Triangle inequality, sum of any two sides  must be > third
         # Check each side against all the others. Note that a combination is not the same as a unique permutation
         # e.g, the combination a = 2, b = 3, c = 5 is incorrect, where permutations include a = 5, b = 3, c = 2
@@ -66,5 +73,5 @@ class Triangle(object):
 
     @property
     def is_scalene(self):
-        return self.is_valid() and not (self.is_equilateral or  self.is_isosceles or self.is_right)
+        return self.is_valid_triangle() and not (self.is_equilateral or self.is_isosceles or self.is_right)
 
