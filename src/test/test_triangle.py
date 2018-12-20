@@ -62,6 +62,10 @@ invalid_args_data = [
     ([0, 0, -0], ValueError),
     ([3, 4, 0], ValueError),
     ([-12313, 4, 0], ValueError),
+    (["stringdata", 3, -5], TypeError),
+    ([1,2], TypeError),
+    ([1, 2, dict()], TypeError),
+    ([], TypeError)
 ]
 
 
@@ -69,21 +73,26 @@ invalid_args_data = [
 def equilateral_test_case(request):
     return request.param
 
+
 @pytest.fixture(scope='module', params=isosceles_data)
 def isosceles_test_case(request):
     return request.param
+
 
 @pytest.fixture(scope='module', params=right_data)
 def right_test_case(request):
     return request.param
 
+
 @pytest.fixture(scope='module', params=scalene_data)
 def scalene_test_case(request):
     return request.param
 
+
 @pytest.fixture(scope='module', params=invalid_triangle_data)
 def invalid_triangle_test_case(request):
     return request.param
+
 
 @pytest.fixture(scope='module', params=invalid_args_data)
 def invalid_args_test_case(request):
@@ -94,7 +103,6 @@ def test_equilateral(equilateral_test_case):
     lengths, expected = equilateral_test_case
     triangle = Triangle(*lengths)
     assert (triangle.is_equilateral == expected)
-
 
 
 def test_isosceles(isosceles_test_case):
@@ -121,7 +129,9 @@ def test_invalid_triangle(invalid_triangle_test_case):
 
 
 def test_invalid_args(invalid_args_test_case):
-    lengths, expected = invalid_args_data
-    Triangle(*lengths)
+    lengths, expected = invalid_args_test_case
     with pytest.raises(expected):
-        pass
+        Triangle(*lengths)
+
+
+
