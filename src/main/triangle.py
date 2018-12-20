@@ -1,3 +1,4 @@
+from itertools import permutations
 class Triangle(object):
     def __init__(self, side1, side2, side3):
         self._side1 = side1
@@ -46,7 +47,19 @@ class Triangle(object):
         a,b = sides
         return a ** 2 + b ** 2 == c ** 2
 
-    def is_isosceles(self):
-        return bool([side for side in self.sides if self.sides.count(side) == 2])
-    def is_scalene(self):
+    def is_valid(self):
+        #Triangle inequality, sum of any two sides  must be > third
+        sides = self.sides
+        for p in permutations(sides):
+            a,b,c = p
+            if a >= (b + c):
+                return False
         return True
+
+
+
+    def is_isosceles(self):
+        return bool([s for s in self.sides if self.sides.count(s) == 2 ])
+    def is_scalene(self):
+        return self.is_valid() and not (self.is_equilateral() or  self.is_isosceles() or self.is_right())
+
