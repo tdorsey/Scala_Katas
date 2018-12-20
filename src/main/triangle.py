@@ -1,5 +1,4 @@
-from itertools import combinations
-
+from itertools import permutations
 
 class Triangle(object):
     def __init__(self, side1, side2, side3):
@@ -51,9 +50,12 @@ class Triangle(object):
 
     def is_valid(self):
         # Triangle inequality, sum of any two sides  must be > third
+        # Check each side against all the others. Note that a combination is not the same as a unique permutation
+        # e.g, the combination a = 2, b = 3, c = 5 is incorrect, where permutations include a = 5, b = 3, c = 2
+        # limit calculations to unique permutations only to avoid repeating 3,3,3 and 3,3,3
         sides = self.sides
-        for combo in combinations(sides, len(sides)):
-            a,b,c = combo
+        for p in set(permutations(sides, len(sides))):
+            a,b,c = p
             if a >= (b + c):
                 return False
         return True
