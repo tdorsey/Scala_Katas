@@ -1,11 +1,11 @@
-from itertools import permutations
+from itertools import combinations
+
+
 class Triangle(object):
     def __init__(self, side1, side2, side3):
         self._side1 = side1
         self._side2 = side2
         self._side3 = side3
-
-
 
     @property
     def sides(self):
@@ -35,12 +35,14 @@ class Triangle(object):
     def side3(self, value):
         self._side3 = value
 
+    @property
     def is_equilateral(self):
         return self.side1 == self.side2 == self.side3
 
+    @property
     def is_right(self):
-        #Find index of longest side and pop it into c,
-        #sides is a read only property, so make a copy to pop/unpack correctly
+        # Find index of longest side and pop it into c,
+        # sides is a read only property, so make a copy to pop/unpack correctly
         sides = self.sides
         max_index = sides.index(max(sides))
         c = sides.pop(max_index)
@@ -48,18 +50,19 @@ class Triangle(object):
         return a ** 2 + b ** 2 == c ** 2
 
     def is_valid(self):
-        #Triangle inequality, sum of any two sides  must be > third
+        # Triangle inequality, sum of any two sides  must be > third
         sides = self.sides
-        for p in permutations(sides):
-            a,b,c = p
+        for combo in combinations(sides, len(sides)):
+            a,b,c = combo
             if a >= (b + c):
                 return False
         return True
 
-
-
+    @property
     def is_isosceles(self):
         return bool([s for s in self.sides if self.sides.count(s) == 2 ])
+
+    @property
     def is_scalene(self):
-        return self.is_valid() and not (self.is_equilateral() or  self.is_isosceles() or self.is_right())
+        return self.is_valid() and not (self.is_equilateral or  self.is_isosceles or self.is_right)
 
