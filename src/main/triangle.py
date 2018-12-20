@@ -4,7 +4,7 @@ from itertools import permutations
 class Triangle(object):
     def __init__(self, side1, side2, side3):
 
-        if any([side1, side2, side3]) <= 0:
+        if any([value <= 0 for value in [side1, side2, side3]]):
             raise ValueError("The length of a Triangle's side must be a positive int")
 
         self._side1 = side1
